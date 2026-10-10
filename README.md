@@ -1,69 +1,214 @@
-# CodeIgniter 4 Application Starter
+# Starline POS — Point-of-Sale System
 
-## What is CodeIgniter?
+A web-based Point-of-Sale (POS) system developed with CodeIgniter 4, PHP, MySQL, HTML, CSS, and Bootstrap.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+The system includes product management, customer management, staff management, authentication, sales transactions, inventory tracking, and sales history. Its interface uses the Starline branding and a Malibu Escape pastel color palette.
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+## Features
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+### Product Management
+- View and manage products.
+- Maintain product prices, stock quantities, and images.
+- Archive products when they are no longer active.
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+### Customer Management
+- Add, view, edit, and delete customer records.
+- Validate customer information, including email addresses.
 
-## Installation & updates
+### Staff Management
+- Add, view, edit, and delete staff accounts.
+- Upload, display, and replace profile avatars.
+- Display a default avatar when no photo is uploaded.
+- Store passwords using password hashing.
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+### Authentication
+- Log in using staff credentials.
+- Log out and invalidate the current session.
+- Restrict management pages to authenticated users.
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+### Record Sale
+- Select a product and customer.
+- Specify the quantity being sold.
+- Calculate the estimated transaction total.
+- Validate available stock before completing a sale.
+- Save the sale and update inventory within a database transaction.
 
-## Setup
+### Sales History
+- View recorded sales.
+- Display product, customer, staff, quantity, unit price, total price, and transaction date.
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+## Technology Stack
 
-## Important Change with index.php
+- **Backend:** PHP and CodeIgniter 4
+- **Database:** MySQL or MariaDB
+- **Frontend:** HTML, CSS, Bootstrap, and JavaScript
+- **Dependencies:** Composer
+- **Development environment:** XAMPP
+- **Version control:** Git and GitHub
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+## Requirements
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+Install the following software before setting up the project:
 
-**Please** read the user guide for a better explanation of how CI4 works!
+- XAMPP with PHP 8.2 or a compatible version supported by the project
+- MySQL or MariaDB
+- Composer
+- Git
+- A modern web browser
 
-## Repository Management
+Enable the PHP extensions required by CodeIgniter and the application, including `intl`, `mbstring`, `mysqli`, and `gd`.
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+## Installation and Setup
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+### 1. Clone the repository
 
-## Server Requirements
+Clone the project from GitHub:
 
-PHP version 8.2 or higher is required, with the following extensions installed:
+```bash
+git clone https://github.com/anedair/pos_system.git
+cd pos_system
+```
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+### 2. Install dependencies
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - The end of life date for PHP 8.1 was December 31, 2025.
-> - If you are still using below PHP 8.2, you should upgrade immediately.
-> - The end of life date for PHP 8.2 will be December 31, 2026.
+Run:
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+```bash
+composer install
+```
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+### 3. Create the database
+
+Start Apache and MySQL from the XAMPP Control Panel.
+
+Open phpMyAdmin and create a database named:
+
+```text
+pos_system
+```
+
+### 4. Configure the environment
+
+Copy the example environment file to `.env`.
+
+On Windows PowerShell:
+
+```powershell
+Copy-Item env .env
+```
+
+Open `.env` and configure the application URL and database connection.
+
+For a local development setup, the relevant settings are:
+
+```ini
+CI_ENVIRONMENT = development
+
+app.baseURL = 'http://localhost:8080/'
+
+database.default.hostname = localhost
+database.default.database = pos_system
+database.default.username = root
+database.default.password =
+database.default.DBDriver = MySQLi
+database.default.port = 3306
+```
+
+Use the MySQL username and password configured on your own computer. Do not commit `.env` or publish database credentials.
+
+### 5. Run database migrations
+
+Execute:
+
+```bash
+php spark migrate
+```
+
+This runs the project's available migrations to create the database tables.
+
+### 6. Seed the product data
+
+Run:
+
+```bash
+php spark db:seed ProductSeeder
+```
+
+This runs the existing product seeder.
+
+**Initial staff account:** The repository currently contains a product seeder but does not include an initial staff-account seeder. A fresh database therefore needs an initial staff account provisioned securely before the login-protected management pages can be used. Do not use a shared or hardcoded production password.
+
+### 7. Start the development server
+
+Run:
+
+```bash
+php spark serve
+```
+
+Open the application at:
+
+```text
+http://localhost:8080/
+```
+
+Use the login page to access the POS system after an initial staff account has been provisioned.
+
+## Database Overview
+
+The application uses the following tables:
+
+| Table | Purpose |
+|---|---|
+| `products` | Product details, prices, stock, images, and active status |
+| `customers` | Customer names, email addresses, and phone numbers |
+| `users` | Staff usernames, names, password hashes, and avatar filenames |
+| `sales` | Product, customer, staff, quantity, unit price, and transaction date |
+| `migrations` | Tracks completed database migrations |
+
+The project uses the existing shared database schema. The `sales` table references `product_id`, `customer_id`, and `user_id`; the product inventory field is `stock`, and the sale price field is `unit_price`.
+
+## Testing
+
+The following functional tests were performed during development:
+
+- Customer creation, editing, deletion, and invalid-email validation.
+- Staff creation, editing, deletion, and avatar upload and replacement.
+- Default avatar display for staff without a photo.
+- Password hashing and login verification.
+- Login and logout, including redirection from protected pages.
+- Successful sale recording and automatic stock reduction.
+- Rejection of a sale exceeding available stock.
+- Display of recorded transactions in Sales History.
+
+These are development test results, not a substitute for a complete automated test suite.
+
+## Security Notes
+
+- Keep `.env` and database credentials private.
+- Use password hashing rather than storing plaintext passwords.
+- Require authentication for management operations.
+- Validate submitted form data on the server.
+- Validate uploaded images and restrict permitted file types and sizes.
+- Use secure database configuration for production.
+- Do not expose development error pages or debug tools on a public deployment.
+
+## Deployment
+
+The application has been tested in a local XAMPP development environment.
+
+A publicly accessible deployment still needs to be configured and verified before a hosted application link can be provided. Production deployment should use an appropriate PHP hosting environment, a configured database, secure environment variables, and the `public` directory as the web root.
+
+## Project Repository
+
+GitHub repository:
+
+https://github.com/anedair/pos_system
+
+## Development Team
+
+This project was developed collaboratively for the IT0049 midterm project. The team divided the implementation into product management, customer management, staff management, authentication, sales transactions, inventory tracking, and sales history.
+
+## License
+
+This project is an academic submission. Refer to the course requirements and instructor guidance for its permitted use and distribution.
