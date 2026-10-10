@@ -124,3 +124,8 @@ _modules/*
 
 /results/
 /phpunit.xml
+
+# Ignore user-uploaded files
+/public/uploads/*
+!/public/uploads/.gitkeep
+!/public/uploads/.htaccess

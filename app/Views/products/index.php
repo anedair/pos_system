@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Product Management</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?= base_url('assets/css/pos.css') ?>">
 </head>
 <body class="bg-light">
-
+<?= $this->include('layouts/sidebar') ?>
+<main class="pos-main">
 <div class="container py-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Product Management</h2>
@@ -80,5 +82,6 @@
         </div>
     </div>
 </div>
+</main>
 </body>
 </html>
