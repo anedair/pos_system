@@ -6,9 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Add Product</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?= base_url('assets/css/pos.css') ?>">
 </head>
 <body class="bg-light">
+<?= $this->include('layouts/sidebar') ?>
 
+<main class="pos-main">
 <div class="container py-5" style="max-width:700px">
     <div class="card shadow-sm">
         <div class="card-body p-4">
@@ -66,5 +69,6 @@
         </div>
     </div>
 </div>
+</main>
 </body>
 </html>
